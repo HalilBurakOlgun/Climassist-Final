@@ -1,0 +1,68 @@
+@model Climassist.Models.User
+
+<section id="register" class="d-flex align-items-center justify-content-center">
+    <img src="~/climassist_logo.png" />
+    <h2>Kayıt Ol</h2>
+    <form method="post" asp-action="Register" asp-controller="Account">
+        <div class="mb-3">
+            <label for="name" class="form-label">İsim</label>
+            <input type="text" class="form-control" id="name" name="Name" required>
+        </div>
+        <div class="mb-3">
+            <label for="surName" class="form-label">Soyisim</label>
+            <input type="text" class="form-control" id="surName" name="SurName" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-posta</label>
+            <input type="email" class="form-control" id="email" name="Email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Şifre</label>
+            <input type="password" class="form-control" id="password" name="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+    </form>
+    </div>
+</section>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    #register {
+        min-height: 100vh;
+        /* Sayfanın tam yüksekliğini kaplaması için */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        /* Maksimum genişlik ayarlandı */
+    }
+
+    h4 {
+        margin-bottom: 20px;
+        /* Başlık ile form arasındaki boşluk */
+        text-align: center;
+        /* Başlığı ortalamak için */
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        align-items: center;
+        width: 40%;
+        /* Butonun genişliğini tam ayarlamak için */
+        border-radius: 5px;
+    }
+</style>
