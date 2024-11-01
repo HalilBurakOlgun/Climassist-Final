@@ -42,7 +42,6 @@
                                     style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
                                     Talep Oluştur
                                 </a>
-                                <!-- Talep Görüntüle butonu -->
                                 <a class="nav-link" asp-controller="Request" asp-action="MyRequest"
                                     style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
                                     Taleplerim
@@ -56,8 +55,22 @@
                             }
                             else
                             {
-                                <a class="nav-link" asp-controller="Account" asp-action="Login">Giriş Yap</a>
-                                <a class="nav-link" asp-controller="Account" asp-action="Register">Kayıt Ol</a>
+                                <a class="nav-link" asp-controller="Request" asp-action="Create"
+                                    style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
+                                    Talep Oluştur
+                                </a>
+                                <a class="nav-link" asp-controller="Request" asp-action="MyRequest"
+                                    style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
+                                    Taleplerim
+                                </a>
+                                <a class="nav-link" asp-controller="Account" asp-action="Login"
+                                    style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
+                                    Giriş Yap
+                                </a>
+                                <a class="nav-link" asp-controller="Account" asp-action="Register"
+                                    style="background-color: darkblue; color: white; padding: 10px 15px; border-radius: 5px; text-align: center; text-decoration: none; transition: background-color 0.3s ease;">
+                                    Kayıt Ol
+                                </a>
                             }
                         </div>
                     </div>

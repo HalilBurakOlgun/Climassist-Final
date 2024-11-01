@@ -1,25 +1,30 @@
+@model Climassist.Models.Requests
+
 <section id="services" class="services">
     <div class="container">
         <div class="section-title">
             <h2>Bakım Talebinizi Oluşturun</h2>
             <p class="description">Bakım talebinizi bize çevrimiçi olarak iletebilirsiniz. Size en kısa sürede dönüş
                 yapabilmemiz için aşağıdaki kısa formu doldurarak detayları bizimle paylaşmanızı rica ederiz.</p>
-            <form action="Create" method="post" id="requestForm">
+            <form asp-controller="Request" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <input type="text" name="UserName" id="UserName" class="form-control" value="@ViewBag.UserName"
-                            readonly />
+                        @(User.Identity.IsAuthenticated ? "readonly" : "") placeholder="Ad" required />
                     </div>
                     <div class="form-group col-md-6">
                         <input type="text" name="UserSurname" id="UserSurname" class="form-control"
-                            value="@ViewBag.UserSurname" readonly />
+                            value="@ViewBag.UserSurname" @(User.Identity.IsAuthenticated ? "readonly" : "")
+                            placeholder="Soyad" required />
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <input type="email" name="Email" id="Email" class="form-control" value="@ViewBag.UserEmail"
-                            readonly />
+                        @(User.Identity.IsAuthenticated ? "readonly" : "") placeholder="E-posta" required />
                     </div>
                     <div class="form-group col-md-6">
                         <select name="ClientType" id="ClientType" class="form-select" required>
@@ -83,13 +88,9 @@
                         required></textarea>
                 </div>
 
-                <input type="hidden" name="Status" id="Status" value="Beklemede" />
-                <input type="hidden" name="CreatedAt" id="CreatedAt" value="@DateTime.Now" />
-
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Talep Oluştur</button>
-                </div>
+                <button type="submit" class="btn btn-primary">Talep Oluştur</button>
             </form>
+
         </div>
     </div>
 </section>
