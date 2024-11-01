@@ -1,0 +1,38 @@
+@model List<Climassist.Models.Requests>
+
+@{
+    ViewData["Title"] = "Taleplerim";
+}
+
+<h2>Taleplerim</h2>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Talep Türü</th>
+                <th>Durum</th>
+                <th>Oluşturulma Tarihi</th>
+                <th>Detaylar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.RequestType</td>
+                    <td>@request.Status</td>
+                    <td>@request.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@request.Id">Detaylar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Henüz bir talebiniz bulunmamaktadır.</p>
+}
