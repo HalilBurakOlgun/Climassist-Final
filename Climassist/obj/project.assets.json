@@ -4045,11 +4045,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj",
+      "projectUniqueName": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\Climassist\\Climassist.csproj",
       "projectName": "Climassist",
-      "projectPath": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj",
+      "projectPath": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\Climassist\\Climassist.csproj",
       "packagesPath": "C:\\Users\\Burak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\obj\\",
+      "outputPath": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\Climassist\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj": {}
+    "C:\\Users\\Burak\\Desktop\\Climassist-Final\\climassist\\Climassist.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj": {
+    "C:\\Users\\Burak\\Desktop\\Climassist-Final\\climassist\\Climassist.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj",
+        "projectUniqueName": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\climassist\\Climassist.csproj",
         "projectName": "Climassist",
-        "projectPath": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\Climassist.csproj",
+        "projectPath": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\climassist\\Climassist.csproj",
         "packagesPath": "C:\\Users\\Burak\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Burak\\Desktop\\Climassist\\Climassist\\obj\\",
+        "outputPath": "C:\\Users\\Burak\\Desktop\\Climassist-Final\\climassist\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
