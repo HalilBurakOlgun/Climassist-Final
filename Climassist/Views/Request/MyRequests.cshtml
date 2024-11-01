@@ -1,0 +1,240 @@
+@model IEnumerable<Climassist.Models.Requests>
+@{
+    ViewData["Title"] = "Taleplerim";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title mb-0">@(User.IsInRole("admin") || User.IsInRole("staff") ? "Tüm Talepler" :
+                "Taleplerim")</h2>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ad Soyad</th>
+                            @if (User.IsInRole("admin") || User.IsInRole("staff"))
+                            {
+                                <th scope="col">İletişim Bilgileri</th>
+                            }
+                            <th scope="col">Talep Detayları</th>
+                            <th scope="col">Tarih</th>
+                            <th scope="col">Durum</th>
+                            @if (User.IsInRole("admin") || User.IsInRole("staff"))
+                            {
+                                <th scope="col">İşlemler</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model)
+                        {
+                            <tr>
+                                <td>@request.Id</td>
+                                <td>@request.UserName @request.UserSurname</td>
+                                @if (User.IsInRole("admin") || User.IsInRole("staff"))
+                                {
+                                    <td>
+                                        <div><i class="fas fa-envelope"></i> @request.Email</div>
+                                        <div><i class="fas fa-phone"></i> @request.Phone</div>
+                                    </td>
+                                }
+                                <td>
+                                    <div><strong>Müşteri Tipi:</strong> @request.ClientType</div>
+                                    <div><strong>Talep Türü:</strong> @request.RequestType</div>
+                                    @if (!string.IsNullOrEmpty(request.UnitType))
+                                    {
+                                        <div><strong>Ünite Tipi:</strong> @request.UnitType</div>
+                                    }
+                                </td>
+                                <td>@request.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <span class="badge status-@request.Status.ToLower().Replace(" ", "-")">
+                                        @request.Status
+                                    </span>
+                                </td>
+                                @if (User.IsInRole("admin") || User.IsInRole("staff"))
+                                {
+                                    <td>
+                                        <select class="form-select form-select-sm status-select" data-request-id="@request.Id"
+                                            onchange="updateRequestStatus(this)">
+                                            <option value="Beklemede" selected="@(request.Status == "Beklemede")">Beklemede
+                                            </option>
+                                            <option value="İşleme Alındı" selected="@(request.Status == "İşleme Alındı")">İşleme
+                                                Alındı</option>
+                                            <option value="Tamamlandı" selected="@(request.Status == "Tamamlandı")">Tamamlandı
+                                            </option>
+                                            <option value="İptal Edildi" selected="@(request.Status == "İptal Edildi")">İptal
+                                                Edildi</option>
+                                        </select>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, #101460, #1a237e);
+        color: white;
+        border-radius: 10px 10px 0 0 !important;
+        padding: 1rem 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .table td {
+        vertical-align: middle;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Status badge styles */
+    .badge {
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+
+    .status-beklemede {
+        background-color: #ffc107;
+        color: #000;
+    }
+
+    .status-işleme-alındı {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .status-tamamlandı {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .status-iptal-edildi {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    /* Select box styling */
+    .status-select {
+        padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .status-select:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+    }
+
+    /* Icon styling */
+    .fas {
+        margin-right: 5px;
+        color: #6c757d;
+    }
+
+    /* Responsive adjustments */
+</style>
+<script>
+    function updateRequestStatus(selectElement) {
+        const requestId = selectElement.dataset.requestId;
+        const newStatus = selectElement.value;
+
+        fetch('/Request/UpdateStatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify({
+                id: requestId,
+                status: newStatus
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Status badge'i güncelle
+                    const row = selectElement.closest('tr');
+                    const statusBadge = row.querySelector('.badge');
+                    statusBadge.className = `badge status-${newStatus.toLowerCase().replace(' ', '-')}`;
+                    statusBadge.textContent = newStatus;
+
+                    // Başarılı güncelleme bildirimi
+                    showNotification('Talep durumu başarıyla güncellendi', 'success');
+                } else {
+                    // Hata bildirimi
+                    showNotification(data.message || 'Durum güncellenirken bir hata oluştu', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
+            });
+    }
+
+    function showNotification(message, type) {
+        // Bu fonksiyon, tercih ettiğiniz bildirim sistemine göre özelleştirilebilir
+        // Örnek olarak basit bir alert kullanıyoruz
+        alert(message);
+
+        // Alternatif olarak, daha şık bir bildirim sistemi kullanabilirsiniz
+        // Örneğin, Bootstrap toasts veya başka bir bildirim kütüphanesi
+
+        // Örnek:
+        // const toastElement = document.createElement('div');
+        // toastElement.className = `toast ${type} show`;
+        // toastElement.setAttribute('role', 'alert');
+        // toastElement.setAttribute('aria-live', 'assertive');
+        // toastElement.setAttribute('aria-atomic', 'true');
+        // toastElement.innerHTML = `
+        //     <div class="toast-header">
+        //         <strong class="mr-auto">Bildirim</strong>
+        //         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        //             <span aria-hidden="true">&times;</span>
+        //         </button>
+        //     </div>
+        //     <div class="toast-body">
+        //         ${message}
+        //     </div>
+        // `;
+        // document.body.appendChild(toastElement);
+        // setTimeout(() => {
+        //     toastElement.remove();
+        // }, 3000);
+    }
+</script>

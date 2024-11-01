@@ -16,7 +16,56 @@ namespace Climassist.Controllers
         {
             _context = context;
         }
+        public IActionResult Index()
+        {
+            // Kullanıcı bilgilerini Session'dan al
+            var userType = HttpContext.Session.GetString("UserType");
+            var userEmail = HttpContext.Session.GetString("UserEmail");
 
+            // Kullanıcı tipine göre talepleri getir
+            if (userType == "customer")
+            {
+                // Müşteri ise sadece kendi taleplerini göster
+                var requests = _context.Requests
+                    .Where(r => r.Email == userEmail)
+                    .OrderByDescending(r => r.CreatedAt)
+                    .ToList();
+                return View(requests);
+            }
+            else if (userType == "admin" || userType == "staff")
+            {
+                // Admin veya personel ise tüm talepleri göster
+                var requests = _context.Requests
+                    .OrderByDescending(r => r.CreatedAt)
+                    .ToList();
+                return View(requests);
+            }
+
+            // Yetkisiz erişim durumunda ana sayfaya yönlendir
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStatus(int id, string status)
+        {
+            var userType = HttpContext.Session.GetString("UserType");
+
+            // Sadece admin ve staff statü güncelleyebilir
+            if (userType != "admin" && userType != "staff")
+            {
+                return Json(new { success = false, message = "Yetkisiz işlem!" });
+            }
+
+            var request = _context.Requests.Find(id);
+            if (request != null)
+            {
+                request.Status = status;
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false, message = "Talep bulunamadı!" });
+        }
         public async Task<IActionResult> Create()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
